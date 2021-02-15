@@ -15,14 +15,9 @@ public class CombatBase : MonoBehaviour
         if (targets.Count > 0)
         {
             float distance;
-            print(targets[0]);
-            print(targets.Count);
-            foreach (CombatBase target in targets)
-            {
-                print(target);
-            }
             float minDistance = (targets[0].transform.position - this.transform.position).magnitude;
             CombatBase currentTarget = targets[0];
+
             foreach (CombatBase target in targets)
             {
                 distance = (target.transform.position - this.transform.position).magnitude;
@@ -32,6 +27,7 @@ public class CombatBase : MonoBehaviour
                     currentTarget = target;
                 }
             }
+
             currentTarget.TakeDamage(damage);
             if (currentTarget.IsDead())
             {
