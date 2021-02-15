@@ -13,6 +13,12 @@ public class CombatBase : MonoBehaviour
         if (targets.Count > 0)
         {
             float distance;
+            print(targets[0]);
+            print(targets.Count);
+            foreach (CombatBase target in targets)
+            {
+                print(target);
+            }
             float minDistance = (targets[0].transform.position - this.transform.position).magnitude;
             CombatBase currentTarget = targets[0];
             foreach (CombatBase target in targets)
@@ -25,17 +31,31 @@ public class CombatBase : MonoBehaviour
                 }
             }
             currentTarget.TakeDamage(damage);
+            if (currentTarget.IsDead())
+            {
+                targets.Remove(currentTarget);
+            }
         }       
     }
 
     void TakeDamage(float dmg)
     {
         health -= dmg;
+        if (IsDead())
+        {
+            Destroy(this.gameObject);
+        }
+   
+    }
 
+    public bool IsDead()
+    {
+        bool dead = false;
         if (health <= 0)
         {
-            Debug.Log("dead");
-        }       
+            dead = true;
+        }
+        return dead;
     }
 
     private void OnCollisionEnter(Collision collision)
