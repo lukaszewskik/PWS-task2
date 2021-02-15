@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class CombatBase : MonoBehaviour
 {
-    float health;
-    float damage;
+    float health = 100;
+    float damage = 20;
+
+
     List<CombatBase> targets = new List<CombatBase>();
 
     public void TryAttack()
@@ -41,6 +43,7 @@ public class CombatBase : MonoBehaviour
     void TakeDamage(float dmg)
     {
         health -= dmg;
+
         if (IsDead())
         {
             Destroy(this.gameObject);
@@ -60,10 +63,12 @@ public class CombatBase : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject);
-        if (collision.gameObject.GetComponent<CombatBase>())
+        GameObject target = collision.gameObject;
+
+
+        if (target.GetComponent<CombatBase>() && !target.CompareTag(this.gameObject.tag))
         {
-            targets.Add(collision.gameObject.GetComponent<CombatBase>());
+            targets.Add(target.GetComponent<CombatBase>());
         }       
     }
 
